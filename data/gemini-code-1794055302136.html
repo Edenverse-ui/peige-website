@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>鄧佩格個人品牌 | Peige Deng Official</title>
+  <!-- Google 經典東方質感字體 -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500&family=Noto+Serif+TC:wght@400;600;700&display=swap" rel="stylesheet">
+  
+  <style>
+    /* ==================== 1. 核心變數與全域重置 ==================== */
+    :root {
+      --bg-rice: #F9F8F3;        /* 宣紙米白 */
+      --bg-dark-green: #2E4036;  /* 深竹墨綠 */
+      --accent-red: #C83C23;     /* 朱砂紅 */
+      --text-main: #333333;      /* 墨色主字 */
+      --text-muted: #666666;     /* 次要文字 */
+      --text-light: #F9F8F3;     /* 深色背景上的米白字 */
+      --font-serif: 'Noto Serif TC', 'Songti TC', serif;
+      --font-sans: 'Noto Sans TC', sans-serif;
+      --shadow-soft: 0 12px 30px rgba(0, 0, 0, 0.05);
+      --transition-smooth: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-rice);
+      color: var(--text-main);
+      font-family: var(--font-sans);
+      line-height: 1.8;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ==================== 2. 墨簾轉場遮罩 (Ink Curtain) ==================== */
+    #ink-curtain {
+      position: fixed;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: var(--bg-dark-green);
+      z-index: 9999;
+      pointer-events: none;
+      transition: none;
+      opacity: 0.95;
+    }
+
+    #ink-curtain.sweep {
+      animation: curtainSweep 0.8s cubic-bezier(0.77, 0, 0.175, 1) forwards;
+    }
+
+    @keyframes curtainSweep {
+      0% { left: -100%; }
+      50% { left: 0%; }
+      100% { left: 100%; }
+    }
+
+    /* ==================== 3. 頂部導覽列 (Header & Nav) ==================== */
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background: rgba(249, 248, 243, 0.92);
+      backdrop-filter: blur(12px);
+      box-shadow: var(--shadow-soft);
+      z-index: 1000;
+    }
+
+    .nav-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .brand-logo-group {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      cursor: pointer;
+    }
+
+    .brand-logo-img {
+      height: 36px;
+      width: auto;
+      object-fit: contain;
+    }
+
+    .brand-name {
+      font-family: var(--font-serif);
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--bg-dark-green);
+      letter-spacing: 2px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 1.5rem;
+      list-style: none;
+      align-items: center;
+    }
+
+    /* 墨跡暈染 (Ink Bleed) 懸停效果 */
+    .nav-link {
+      font-size: 0.95rem;
+      color: var(--text-main);
+      text-decoration: none;
+      cursor: pointer;
+      padding: 0.5rem 1.2rem;
+      border-radius: 20px;
+      position: relative;
+      overflow: hidden;
+      z-index: 1;
+      transition: var(--transition-smooth);
+    }
+
+    .nav-link::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 120%;
+      height: 120%;
+      background: radial-gradient(circle, rgba(46, 64, 54, 0.12) 0%, transparent 70%);
+      transform: translate(-50%, -50%) scale(0);
+      border-radius: 50%;
+      transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+      z-index: -1;
+      pointer-events: none;
+    }
+
+    .nav-link:hover::before, .nav-link.active::before {
+      transform: translate(-50%, -50%) scale(1.5);
+    }
+
+    .nav-link:hover, .nav-link.active {
+      color: var(--bg-dark-green);
+      font-weight: 500;
+    }
+
+    /* 朱砂紅點綴按鈕 */
+    .btn-contact {
+      background-color: var(--accent-red);
+      color: #FFF !important;
+      padding: 0.55rem 1.4rem;
+      border-radius: 30px;
+      font-size: 0.9rem;
+      transition: var(--transition-smooth);
+    }
+
+    .btn-contact::before {
+      display: none;
+    }
+
+    .btn-contact:hover {
+      background-color: #a62f1a;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(200, 60, 35, 0.3);
+    }
+
+    /* ==================== 4. 頁面切換與核心佈局 ==================== */
+    main {
+      margin-top: 80px;
+      min-height: calc(100vh - 80px - 150px);
+      position: relative;
+    }
+
+    .page-section {
+      display: none;
+      opacity: 0;
+      transform: translateY(15px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+      padding: 4rem 2rem 6rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .page-section.active {
+      display: block;
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .section-title {
+      font-family: var(--font-serif);
+      font-size: 2.2rem;
+      color: var(--bg-dark-green);
+      margin-bottom: 3rem;
+      text-align: center;
+      position: relative;
+      letter-spacing: 3px;
+    }
+
+    .section-title::after {
+      content: '';
+      display: block;
+      width: 40px;
+      height: 2px;
+      background: var(--accent-red);
+      margin: 0.8rem auto 0;
+    }
+
+    /* ==================== 5. 首頁 (Home) 與視差光影 ==================== */
+    .hero-section {
+      position: relative;
+      padding: 8rem 2rem 6rem;
+      text-align: center;
+      border-radius: 16px;
+      overflow: hidden;
+      margin-bottom: 4rem;
+      background: rgba(255, 255, 255, 0.4);
+      box-shadow: var(--shadow-soft);
+    }
+
+    /* 視差滾動樹影層 */
+    .parallax-tree-bg {
+      position: absolute;
+      top: -20%;
+      right: -10%;
+      width: 65%;
+      height: 140%;
+      background-image: url('tree2.jpg');
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: top right;
+      opacity: 0.22;
+      z-index: 0;
+      pointer-events: none;
+      will-change: transform;
+      mix-blend-mode: multiply;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+    }
+
+    .hero-title {
+      font-family: var(--font-serif);
+      font-size: 2.8rem;
+      color: var(--bg-dark-green);
+      margin-bottom: 1.5rem;
+      letter-spacing: 4px;
+      line-height: 1.4;
+    }
+
+    .hero-subtitle {
+      font-size: 1.2rem;
+      color: var(--text-muted);
+      max-width: 700px;
+      margin: 0 auto 3rem;
+      font-weight: 300;
+      letter-spacing: 1px;
+    }
+
+    .brand-philosophy-card {
+      background: var(--bg-dark-green);
+      color: var(--text-light);
+      padding: 3rem;
+      border-radius: 12px;
+      margin-bottom: 5rem;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .philosophy-text {
+      font-size: 1.15rem;
+      line-height: 2.2;
+      font-family: var(--font-serif);
+      text-align: center;
+    }
+
+    /* 原創飾品卡片展示 */
+    .jewelry-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2.5rem;
+    }
+
+    .jewelry-card {
+      background: #FFF;
+      border-radius: 12px;
+      padding: 1.2rem;
+      box-shadow: var(--shadow-soft);
+      transition: var(--transition-smooth);
+      text-align: center;
+    }
+
+    .jewelry-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 20px 40px rgba(46, 64, 54, 0.12);
+    }
+
+    .jewelry-card img {
+      width: 100%;
+      height: 280px;
+      object-fit: cover;
+      border-radius: 8px;
+      margin-bottom: 1.2rem;
+    }
+
+    .jewelry-card h3 {
+      font-family: var(--font-serif);
+      font-size: 1.2rem;
+      color: var(--bg-dark-green);
+      letter-spacing: 2px;
+    }
+
+    /* ==================== 6. 關於品牌 (About) ==================== */
+    .name-deconstruction {
+      background: var(--bg-dark-green);
+      color: var(--text-light);
+      padding: 3.5rem;
+      border-radius: 12px;
+      margin-bottom: 4rem;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .deconstruct-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      margin-top: 2rem;
+    }
+
+    .deconstruct-item h3 {
+      font-size: 1.8rem;
+      color: var(--accent-red);
+      margin-bottom: 1rem;
+      font-family: var(--font-serif);
+    }
+
+    .deconstruct-item p {
+      line-height: 2;
+      opacity: 0.9;
+      font-weight: 300;
+    }
+
+    .brand-visual-box {
+      display: flex;
+      align-items: center;
+      gap: 3.5rem;
+      background: #FFF;
+      padding: 3.5rem;
+      border-radius: 12px;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .brand-visual-box img {
+      width: 200px;
+      height: 200px;
+      object-fit: contain;
+    }
+
+    .brand-positioning {
+      display: inline-block;
+      margin-top: 1.5rem;
+      padding: 0.4rem 1.4rem;
+      background: var(--bg-rice);
+      color: var(--accent-red);
+      border-radius: 20px;
+      font-weight: 500;
+      font-size: 0.9rem;
+    }
+
+    /* ==================== 7. 社群與作品 (Social) ==================== */
+    .social-post-container {
+      display: grid;
+      grid-template-columns: 1fr 1.1fr;
+      gap: 4rem;
+      align-items: center;
+      background: #FFF;
+      padding: 3.5rem;
+      border-radius: 12px;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .social-post-img-wrapper img {
+      width: 100%;
+      max-height: 520px;
+      object-fit: contain;
+      border-radius: 8px;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+    }
+
+    .social-post-content blockquote {
+      font-family: var(--font-serif);
+      font-size: 1.25rem;
+      line-height: 2.2;
+      color: var(--text-main);
+      border-left: 3px solid var(--accent-red);
+      padding-left: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .btn-fake-link {
+      display: inline-block;
+      background-color: var(--accent-red);
+      color: #FFF;
+      padding: 0.7rem 1.8rem;
+      border-radius: 30px;
+      text-decoration: none;
+      font-size: 0.95rem;
+      letter-spacing: 1px;
+      transition: var(--transition-smooth);
+      box-shadow: 0 4px 15px rgba(200, 60, 35, 0.2);
+    }
+
+    .btn-fake-link:hover {
+      background-color: #a62f1a;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(200, 60, 35, 0.35);
+    }
+
+    /* ==================== 8. 品牌吉祥物 (Mascot) ==================== */
+    .mascot-gallery {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+      margin-bottom: 4rem;
+    }
+
+    .mascot-img-card {
+      background: #FFF;
+      padding: 1.5rem;
+      border-radius: 12px;
+      box-shadow: var(--shadow-soft);
+      text-align: center;
+      transition: var(--transition-smooth);
+    }
+
+    .mascot-img-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .mascot-img-card img {
+      width: 100%;
+      height: 300px;
+      object-fit: contain;
+      margin-bottom: 1rem;
+    }
+
+    .mascot-meta {
+      background: var(--bg-rice);
+      padding: 0.8rem;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      color: var(--bg-dark-green);
+      font-weight: 500;
+    }
+
+    .mascot-details-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+    }
+
+    .detail-card {
+      background: #FFF;
+      padding: 2.5rem;
+      border-radius: 12px;
+      box-shadow: var(--shadow-soft);
+      border-top: 4px solid var(--bg-dark-green);
+    }
+
+    .detail-card h3 {
+      color: var(--bg-dark-green);
+      font-size: 1.25rem;
+      margin-bottom: 1rem;
+      font-family: var(--font-serif);
+    }
+
+    .detail-card p {
+      color: var(--text-muted);
+      line-height: 1.9;
+      font-size: 0.95rem;
+    }
+
+    /* ==================== 9. 聯絡我們 (Contact) ==================== */
+    .contact-card {
+      background: var(--bg-dark-green);
+      color: var(--text-light);
+      padding: 5rem 3rem;
+      border-radius: 16px;
+      text-align: center;
+      max-width: 800px;
+      margin: 0 auto;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .contact-info {
+      font-size: 1.2rem;
+      margin: 2.5rem 0;
+      line-height: 2.5;
+      font-weight: 300;
+    }
+
+    .contact-info a {
+      color: var(--text-light);
+      text-decoration: none;
+      transition: var(--transition-smooth);
+    }
+
+    .contact-info a:hover {
+      color: var(--accent-red);
+    }
+
+    .social-icons {
+      display: flex;
+      justify-content: center;
+      gap: 1.2rem;
+      margin-top: 2.5rem;
+    }
+
+    .social-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.1);
+      color: var(--text-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.85rem;
+      font-weight: bold;
+      text-decoration: none;
+      transition: var(--transition-smooth);
+    }
+
+    .social-icon:hover {
+      background: var(--accent-red);
+      transform: translateY(-3px);
+    }
+
+    /* ==================== 10. 頁尾 Footer ==================== */
+    footer {
+      text-align: center;
+      padding: 2.5rem 2rem;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      border-top: 1px solid rgba(0,0,0,0.05);
+    }
+
+    /* ==================== 11. 響應式適配 RWD ==================== */
+    @media (max-width: 900px) {
+      .deconstruct-grid, .social-post-container, .mascot-details-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .mascot-gallery {
+        grid-template-columns: 1fr;
+      }
+
+      .brand-visual-box {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .hero-title {
+        font-size: 2.1rem;
+      }
+
+      .nav-links {
+        gap: 0.5rem;
+      }
+
+      .nav-link {
+        font-size: 0.85rem;
+        padding: 0.4rem 0.8rem;
+      }
+
+      .parallax-tree-bg {
+        width: 100%;
+        opacity: 0.15;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 墨簾轉場動畫遮罩 -->
+  <div id="ink-curtain"></div>
+
+  <!-- 固定頁首導覽列 -->
+  <header>
+    <div class="nav-container">
+      <div class="brand-logo-group" onclick="switchTab('home')">
+        <img src="logo.png" alt="佩格 Logo" class="brand-logo-img">
+        <span class="brand-name">佩格</span>
+      </div>
+      <ul class="nav-links">
+        <li><a class="nav-link active" onclick="switchTab('home')">首頁</a></li>
+        <li><a class="nav-link" onclick="switchTab('about')">關於品牌</a></li>
+        <li><a class="nav-link" onclick="switchTab('social')">社群與作品</a></li>
+        <li><a class="nav-link" onclick="switchTab('mascot')">品牌吉祥物</a></li>
+        <li><a class="nav-link" onclick="switchTab('contact')">聯絡我們</a></li>
+        <li><a class="nav-link btn-contact" onclick="switchTab('contact')">聯絡設計師 / Contact</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <main>
+    <!-- 1. 首頁 (Home) -->
+    <section id="home" class="page-section active">
+      <div class="hero-section">
+        <!-- 視差光影背景層 -->
+        <div class="parallax-tree-bg" id="parallax-bg"></div>
+        <div class="hero-content">
+          <h1 class="hero-title">以佩戴連接創意，在方格中尋找格局</h1>
+          <p class="hero-subtitle">專注於原創服裝飾品設計，結合東方美學與現代幾何工藝</p>
+        </div>
+      </div>
+
+      <div class="brand-philosophy-card">
+        <div class="philosophy-text">
+          <p>「『佩』戴創意，連接世界：以別針與掛扣的靈活性，打破傳統邊界。</p>
+          <p>『格』物致知，方寸格局：以方塊構架思維，在秩序中尋找無限可能。」</p>
+        </div>
+      </div>
+
+      <h2 class="section-title">原創飾品展示</h2>
+      <div class="jewelry-grid">
+        <div class="jewelry-card">
+          <img src="1.jpg" alt="原創飾品系列 I">
+          <h3>原創飾品系列 I</h3>
+        </div>
+        <div class="jewelry-card">
+          <img src="2.jpg" alt="原創飾品系列 II">
+          <h3>原創飾品系列 II</h3>
+        </div>
+        <div class="jewelry-card">
+          <img src="3.jpg" alt="原創飾品系列 III">
+          <h3>原創飾品系列 III</h3>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. 關於品牌 (About) -->
+    <section id="about" class="page-section">
+      <h2 class="section-title">關於品牌</h2>
+
+      <div class="name-deconstruction">
+        <h2 style="font-family: var(--font-serif); font-size: 1.8rem; text-align: center; color: var(--text-light);">品牌命意與名稱拆解</h2>
+        <div class="deconstruct-grid">
+          <div class="deconstruct-item">
+            <h3>【佩】</h3>
+            <p>源自“佩戴”、“玉佩”與“別針”。代表著裝飾、連接與表達。在設計中化為連接創意與現實的“別針”與“掛扣”概念，賦予獨特的飾品感與識別度。</p>
+          </div>
+          <div class="deconstruct-item">
+            <h3>【格】</h3>
+            <p>源自“格物致知”、“方塊（格子）”與“田字格”。代表著框架、品格與格局。在形象中化為模組化方塊，象徵嚴謹的秩序、思維的構建與無限的創作空間。</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="brand-visual-box">
+        <img src="logo.png" alt="品牌 Logo 視覺">
+        <div>
+          <h3 style="font-size: 1.6rem; color: var(--bg-dark-green); margin-bottom: 1rem; font-family: var(--font-serif);">品牌視覺概念</h3>
+          <p style="color: var(--text-muted); line-height: 2;">結合別針與中國古代掛扣概念，透過灰色別針與多個方格疊加，呈現類似可佩戴頭飾的造型。</p>
+          <div class="brand-positioning">品牌定位：服裝飾品設計</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. 社群與作品 (Social & Portfolio) -->
+    <section id="social" class="page-section">
+      <h2 class="section-title">社群與企劃宣發</h2>
+      
+      <div class="social-post-container">
+        <div class="social-post-img-wrapper">
+          <img src="social_poster.png.jpg" alt="社群宣發海報">
+        </div>
+        <div class="social-post-content">
+          <blockquote>
+            你能想像一個人，突然被命運重重擊倒，幾乎失去活下去的勇氣嗎？這份從低谷慢慢長出的韌性，或許也能安撫你的迷茫。翻開書本，走進他的生命思考。
+          </blockquote>
+          <p style="color: var(--bg-dark-green); font-size: 0.95rem; font-weight: 500; margin-bottom: 2rem;">—— 《我與地壇》新中式光影閱讀企劃</p>
+          <a href="#" class="btn-fake-link" onclick="event.preventDefault(); alert('感謝關注！完整社群企劃開展中。');">查看完整貼文</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. 品牌吉祥物 (Mascot) -->
+    <section id="mascot" class="page-section">
+      <h2 class="section-title">品牌吉祥物：萍格</h2>
+
+      <div class="mascot-gallery">
+        <div class="mascot-img-card">
+          <img src="mascot_3d.png" alt="吉祥物 3D 立體形象">
+          <div class="mascot-meta">3D 立體形象展示</div>
+        </div>
+        <div class="mascot-img-card">
+          <img src="mascot.jpg" alt="吉祥物全身平面圖">
+          <div class="mascot-meta">全身平面圖設定</div>
+        </div>
+        <div class="mascot-img-card">
+          <img src="mascot_logo.jpg" alt="吉祥物頭像 Logo">
+          <div class="mascot-meta">頭像 Logo 標誌</div>
+        </div>
+      </div>
+
+      <div style="text-align: center; margin-bottom: 3.5rem;">
+        <span style="font-size: 1.1rem; color: var(--bg-dark-green); font-weight: 600; padding: 0.6rem 2rem; background: #FFF; border-radius: 30px; box-shadow: var(--shadow-soft);">
+          動物：兔子 ｜ 名字：萍格 ｜ 定義：品牌吉祥物
+        </span>
+      </div>
+
+      <div class="mascot-details-grid">
+        <div class="detail-card">
+          <h3>1. 品牌核心作用</h3>
+          <p>能夠第一時間展現品牌的風格和特性，給顧客好的第一印象。<br><br><strong>性格設定：</strong>自信，敢於挑戰，不怕困難。</p>
+        </div>
+
+        <div class="detail-card">
+          <h3>2. 「方塊積木」立體耳朵——格物之姿</h3>
+          <p><strong>視覺結構：</strong>打破傳統靈動柔韌的兔耳形態，完全由模組化的三維方塊重構疊加而成。這一靈感直接承襲自品牌 ICON 的“方格疊加/田字格”概念，象徵著探索事物本源（格物致知）的理性和空間構架能力。<br><br><strong>色彩搭配：</strong>耳朵採用紅、藍、白的經典配色撞色組合，展現時尚潮玩（Urban Art Toy）的高級質感與未來科技感。</p>
+        </div>
+
+        <div class="detail-card">
+          <h3>3. 新中式極簡服裝——品格之韻</h3>
+          <p><strong>服飾造型：</strong>身著改良式深青色國風立領暗紋連衫，搭配朱紅綢帶腰封。將傳統中式服飾的內斂優雅與當代時尚審美相結合，體現出東方美學的當代新生。<br><br><strong>精緻暗紋：</strong>胸前與袖口的雲紋水波暗繡，寓意創意如水流般不絕，底蘊深厚。</p>
+        </div>
+
+        <div class="detail-card">
+          <h3>4. 擬人化神態與姿勢——自信之態</h3>
+          <p><strong>神情姿態：</strong>雙臂自信交疊（雙手環抱），眼神堅定溫和、嘴角微揚。展現出從容不迫、胸有成竹的獨特氣場。<br><br><strong>年輕形態：</strong>整體比例設定偏向年輕少年感，幹練不失親和力，代表著不斷探索、朝氣蓬勃的創作生命力。</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. 聯絡我們 (Contact) -->
+    <section id="contact" class="page-section">
+      <h2 class="section-title">聯絡我們</h2>
+
+      <div class="contact-card">
+        <h3 style="font-size: 1.8rem; font-family: var(--font-serif); margin-bottom: 1rem;">與設計師建立連接</h3>
+        <p style="opacity: 0.8; font-weight: 300;">期待與您共同探討原創飾品設計與東方美學的無限可能</p>
+
+        <div class="contact-info">
+          <p>Email: <a href="mailto:hello@peige.com">hello@peige.com</a></p>
+          <p>電話: <a href="tel:+886223456789">+886 2 2345 6789</a></p>
+        </div>
+
+        <div class="social-icons">
+          <a href="#" class="social-icon" title="Facebook">FB</a>
+          <a href="#" class="social-icon" title="Instagram">IG</a>
+          <a href="#" class="social-icon" title="YouTube">YT</a>
+          <a href="#" class="social-icon" title="X (Twitter)">X</a>
+          <a href="#" class="social-icon" title="LinkedIn">LN</a>
+          <a href="#" class="social-icon" title="TikTok">TK</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- 版權宣告 Footer -->
+  <footer>
+    <p>© 2026 鄧佩格. 版權所有.</p>
+  </footer>
+
+  <!-- JavaScript 控制邏輯：墨簾轉場與視差滾動 -->
+  <script>
+    // 1. 墨簾轉場 (Ink Curtain Sweep) 頁籤切換邏輯
+    function switchTab(targetId) {
+      const curtain = document.getElementById('ink-curtain');
+      
+      // 觸發墨簾滑過動畫
+      curtain.classList.remove('sweep');
+      void curtain.offsetWidth; // 強制重繪 (Reflow)
+      curtain.classList.add('sweep');
+
+      // 墨簾覆蓋中途切換內容 (400ms 處)
+      setTimeout(() => {
+        // 隱藏所有 Section
+        const sections = document.querySelectorAll('.page-section');
+        sections.forEach(section => {
+          section.classList.remove('active');
+        });
+
+        // 顯示目標 Section
+        const targetSection = document.getElementById(targetId);
+        if (targetSection) {
+          targetSection.classList.add('active');
+        }
+
+        // 更新 Nav Link 的 Active 高亮狀態
+        const navLinks = document.querySelectorAll('.nav-link');
+        navLinks.forEach(link => {
+          link.classList.remove('active');
+        });
+
+        const activeLink = Array.from(navLinks).find(link => {
+          const onclickAttr = link.getAttribute('onclick');
+          return onclickAttr && onclickAttr.includes(`'${targetId}'`);
+        });
+
+        if (activeLink && !activeLink.classList.contains('btn-contact')) {
+          activeLink.classList.add('active');
+        }
+
+        // 回滾頁面至頂部
+        window.scrollTo(0, 0);
+      }, 400);
+    }
+
+    // 2. 視差滾動光影 (Parallax Scrolling)
+    window.addEventListener('scroll', () => {
+      const parallaxBg = document.getElementById('parallax-bg');
+      if (parallaxBg) {
+        const scrolled = window.pageYOffset;
+        // 控制樹影隨滾動以 0.25 倍速度慢速移動，營造空氣錯位感
+        parallaxBg.style.transform = `translateY(${scrolled * 0.25}px)`;
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#F9F8F3">
+  <title>鄧佩格個人品牌｜以佩戴連接創意</title>
+  <style>
+    :root {
+      --paper: #F9F8F3;
+      --ink: #333333;
+      --bamboo: #2E4036;
+      --vermilion: #C83C23;
+      --muted: #77776f;
+      --line: rgba(46, 64, 54, 0.15);
+      --serif: "Noto Serif TC", "Songti TC", "PMingLiU", serif;
+      --sans: "Noto Sans TC", "Microsoft JhengHei", sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      background:
+        radial-gradient(ellipse at 11% 18%, rgba(133, 148, 110, 0.09), transparent 28rem),
+        radial-gradient(ellipse at 92% 42%, rgba(213, 193, 145, 0.11), transparent 30rem),
+        var(--paper);
+      font-family: var(--sans);
+      line-height: 1.8;
+    }
+
+    button { font: inherit; }
+
+    .site-header {
+      position: sticky;
+      z-index: 10;
+      top: 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      padding: 16px clamp(20px, 6vw, 88px);
+      background: rgba(249, 248, 243, 0.92);
+      border-bottom: 1px solid var(--line);
+      backdrop-filter: blur(12px);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: var(--bamboo);
+      font-family: var(--serif);
+      font-size: 1.05rem;
+      letter-spacing: 0.12em;
+      white-space: nowrap;
+    }
+
+    .brand img {
+      width: 38px;
+      height: 38px;
+      object-fit: contain;
+      border-radius: 50%;
+    }
+
+    .tab-nav {
+      display: flex;
+      gap: 8px;
+      padding: 5px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.55);
+    }
+
+    .tab-button {
+      cursor: pointer;
+      border: 0;
+      border-radius: 999px;
+      padding: 9px 18px;
+      color: var(--bamboo);
+      background: transparent;
+      transition: color 220ms ease, background 220ms ease, transform 220ms ease;
+    }
+
+    .tab-button:hover { transform: translateY(-1px); color: var(--vermilion); }
+
+    .tab-button[aria-selected="true"] {
+      color: var(--paper);
+      background: var(--bamboo);
+    }
+
+    main { min-height: 75vh; }
+
+    .tab-panel { display: none; animation: rise-in 480ms ease both; }
+    .tab-panel.active { display: block; }
+
+    @keyframes rise-in {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .wrap {
+      width: min(1160px, calc(100% - 48px));
+      margin: 0 auto;
+    }
+
+    .hero {
+      position: relative;
+      display: grid;
+      min-height: 560px;
+      align-items: center;
+      overflow: hidden;
+      padding: 90px 0;
+    }
+
+    .hero::before,
+    .hero::after {
+      position: absolute;
+      content: "";
+      pointer-events: none;
+      inset: 0;
+    }
+
+    .hero::before {
+      opacity: 0.8;
+      background:
+        radial-gradient(ellipse at 76% 23%, rgba(118, 135, 91, 0.17), transparent 15%),
+        radial-gradient(ellipse at 88% 37%, rgba(118, 135, 91, 0.14), transparent 12%),
+        radial-gradient(ellipse at 72% 52%, rgba(118, 135, 91, 0.12), transparent 17%),
+        linear-gradient(115deg, transparent 45%, rgba(255, 255, 255, 0.36) 72%, transparent 88%);
+      filter: blur(8px);
+    }
+
+    .hero::after {
+      opacity: 0.38;
+      background: repeating-linear-gradient(118deg, transparent 0 120px, rgba(46, 64, 54, 0.035) 122px 124px, transparent 127px 230px);
+      mask-image: linear-gradient(90deg, transparent, black);
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      max-width: 760px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      margin: 0 0 22px;
+      color: var(--vermilion);
+      font-size: 0.78rem;
+      letter-spacing: 0.24em;
+    }
+
+    .eyebrow::before {
+      width: 32px;
+      height: 1px;
+      content: "";
+      background: currentColor;
+    }
+
+    h1, h2, h3, p { margin-top: 0; }
+
+    h1, h2, h3 { font-family: var(--serif); font-weight: 500; }
+
+    .hero h1 {
+      max-width: 720px;
+      margin-bottom: 24px;
+      color: var(--bamboo);
+      font-size: clamp(2.5rem, 6vw, 5.2rem);
+      line-height: 1.28;
+      letter-spacing: 0.08em;
+    }
+
+    .hero-copy {
+      max-width: 590px;
+      margin-bottom: 0;
+      color: #5c6059;
+      font-size: clamp(1rem, 1.7vw, 1.15rem);
+      letter-spacing: 0.08em;
+    }
+
+    .section {
+      padding: 78px 0;
+      border-top: 1px solid var(--line);
+    }
+
+    .section-heading {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 24px;
+      margin-bottom: 34px;
+    }
+
+    .section-heading h2 {
+      margin-bottom: 0;
+      color: var(--bamboo);
+      font-size: clamp(1.8rem, 3vw, 2.6rem);
+      letter-spacing: 0.08em;
+    }
+
+    .section-heading p {
+      max-width: 400px;
+      margin-bottom: 4px;
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    .meaning-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 20px;
+    }
+
+    .meaning-card {
+      position: relative;
+      min-height: 280px;
+      overflow: hidden;
+      padding: clamp(28px, 4vw, 48px);
+      color: var(--paper);
+      background:
+        radial-gradient(ellipse at 90% 4%, rgba(197, 204, 166, 0.13), transparent 35%),
+        var(--bamboo);
+      border-radius: 4px;
+    }
+
+    .meaning-card::after {
+      position: absolute;
+      right: 18px;
+      bottom: -70px;
+      color: rgba(249, 248, 243, 0.055);
+      font-family: var(--serif);
+      font-size: 18rem;
+      line-height: 1;
+      content: attr(data-mark);
+    }
+
+    .meaning-card > * { position: relative; z-index: 1; }
+
+    .meaning-card .character {
+      margin-bottom: 16px;
+      color: #e6c9a5;
+      font-family: var(--serif);
+      font-size: 4rem;
+      line-height: 1;
+    }
+
+    .meaning-card h3 {
+      margin-bottom: 12px;
+      font-size: 1.45rem;
+      letter-spacing: 0.1em;
+    }
+
+    .meaning-card p {
+      max-width: 380px;
+      margin-bottom: 0;
+      color: rgba(249, 248, 243, 0.84);
+    }
+
+    .logo-feature {
+      display: grid;
+      grid-template-columns: minmax(250px, 0.9fr) 1.1fr;
+      align-items: center;
+      gap: clamp(32px, 7vw, 96px);
+    }
+
+    .logo-frame {
+      display: grid;
+      min-height: 340px;
+      place-items: center;
+      padding: 32px;
+      background:
+        radial-gradient(ellipse at 50% 42%, rgba(255, 255, 255, 0.9), transparent 62%),
+        #efeee7;
+      border-radius: 3px;
+    }
+
+    .logo-frame img {
+      width: min(100%, 320px);
+      max-height: 300px;
+      object-fit: contain;
+    }
+
+    .feature-copy h3 {
+      margin-bottom: 18px;
+      color: var(--bamboo);
+      font-size: clamp(1.55rem, 2.5vw, 2rem);
+      letter-spacing: 0.06em;
+    }
+
+    .feature-copy p { color: #62645d; }
+
+    .red-note {
+      display: inline-block;
+      margin-top: 10px;
+      color: var(--vermilion);
+      font-size: 0.86rem;
+      letter-spacing: 0.14em;
+    }
+
+    .poster-card {
+      display: grid;
+      grid-template-columns: minmax(260px, 0.8fr) 1.2fr;
+      align-items: center;
+      gap: clamp(30px, 6vw, 80px);
+      padding: clamp(24px, 5vw, 58px);
+      color: var(--paper);
+      background: var(--bamboo);
+      border-radius: 4px;
+    }
+
+    .poster-card img {
+      display: block;
+      width: 100%;
+      max-height: 490px;
+      object-fit: contain;
+      background: rgba(249, 248, 243, 0.08);
+    }
+
+    .poster-copy h3 {
+      margin-bottom: 22px;
+      color: #e6c9a5;
+      font-size: 1rem;
+      font-weight: 400;
+      letter-spacing: 0.2em;
+    }
+
+    .poster-copy blockquote {
+      margin: 0;
+      font-family: var(--serif);
+      font-size: clamp(1.25rem, 2.2vw, 1.8rem);
+      line-height: 1.9;
+      letter-spacing: 0.04em;
+    }
+
+    .poster-copy .small-note {
+      margin-top: 28px;
+      margin-bottom: 0;
+      color: rgba(249, 248, 243, 0.62);
+      font-size: 0.84rem;
+      letter-spacing: 0.12em;
+    }
+
+    .mascot-gallery {
+      display: grid;
+      grid-template-columns: 1.1fr 1.1fr 0.8fr;
+      gap: 18px;
+      align-items: stretch;
+    }
+
+    .mascot-figure {
+      display: flex;
+      min-width: 0;
+      flex-direction: column;
+      margin: 0;
+      background: #efeee7;
+      border: 1px solid rgba(46, 64, 54, 0.08);
+    }
+
+    .mascot-image {
+      display: grid;
+      min-height: 300px;
+      flex: 1;
+      place-items: center;
+      padding: 18px;
+      background:
+        radial-gradient(ellipse at 50% 35%, rgba(255, 255, 255, 0.9), transparent 60%),
+        #efeee7;
+    }
+
+    .mascot-image img {
+      width: 100%;
+      height: 360px;
+      object-fit: contain;
+    }
+
+    .mascot-figure figcaption {
+      padding: 14px 18px;
+      color: var(--bamboo);
+      border-top: 1px solid var(--line);
+      font-family: var(--serif);
+      letter-spacing: 0.1em;
+    }
+
+    .details-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1px;
+      background: rgba(249, 248, 243, 0.16);
+      border: 1px solid rgba(249, 248, 243, 0.16);
+    }
+
+    .detail-card {
+      padding: clamp(24px, 3vw, 38px);
+      color: var(--paper);
+      background: var(--bamboo);
+    }
+
+    .detail-card .label {
+      margin-bottom: 18px;
+      color: #e6c9a5;
+      font-size: 0.78rem;
+      letter-spacing: 0.2em;
+    }
+
+    .detail-card h3 {
+      margin-bottom: 14px;
+      font-size: 1.5rem;
+    }
+
+    .detail-card p {
+      margin-bottom: 0;
+      color: rgba(249, 248, 243, 0.8);
+      font-size: 0.95rem;
+    }
+
+    .site-footer {
+      padding: 30px 24px;
+      color: #77776f;
+      border-top: 1px solid var(--line);
+      text-align: center;
+      font-size: 0.8rem;
+      letter-spacing: 0.12em;
+    }
+
+    @media (max-width: 760px) {
+      .site-header { align-items: flex-start; flex-direction: column; gap: 12px; }
+      .tab-nav { width: 100%; }
+      .tab-button { flex: 1; padding: 9px 10px; font-size: 0.9rem; }
+      .hero { min-height: 470px; padding: 72px 0; }
+      .section { padding: 58px 0; }
+      .section-heading { align-items: flex-start; flex-direction: column; gap: 10px; }
+      .meaning-grid, .logo-feature, .poster-card { grid-template-columns: 1fr; }
+      .logo-frame { min-height: 270px; }
+      .poster-card img { max-height: 430px; }
+      .mascot-gallery { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .mascot-figure:last-child { grid-column: 1 / -1; }
+      .mascot-figure:last-child .mascot-image img { height: 280px; }
+      .details-grid { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 460px) {
+      .wrap { width: min(100% - 32px, 1160px); }
+      .brand { font-size: 0.95rem; }
+      .mascot-gallery { grid-template-columns: 1fr; }
+      .mascot-figure:last-child { grid-column: auto; }
+      .mascot-image img { height: 320px; }
+      .meaning-card { min-height: 245px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        scroll-behavior: auto !important;
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="brand">
+      <img src="logo.png" alt="鄧佩格品牌圖標">
+      <span>鄧佩格個人品牌</span>
+    </div>
+    <nav class="tab-nav" role="tablist" aria-label="頁面導覽">
+      <button class="tab-button" id="tab-brand" type="button" role="tab" aria-selected="true" aria-controls="panel-brand">品牌主頁</button>
+      <button class="tab-button" id="tab-mascot" type="button" role="tab" aria-selected="false" aria-controls="panel-mascot">吉祥物與 3D 設計</button>
+    </nav>
+  </header>
+
+  <main>
+    <section class="tab-panel active" id="panel-brand" role="tabpanel" aria-labelledby="tab-brand">
+      <section class="hero">
+        <div class="wrap hero-content">
+          <p class="eyebrow">鄧佩格個人品牌</p>
+          <h1>以佩戴連接創意，<br>在方格中尋找格局</h1>
+          <p class="hero-copy">專注於原創服裝飾品設計，結合東方美學與現代幾何工藝。</p>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="wrap">
+          <div class="section-heading">
+            <h2>字裡的品牌心意</h2>
+            <p>從一個字出發，讓佩戴成為表達，讓方格容納萬象。</p>
+          </div>
+          <div class="meaning-grid">
+            <article class="meaning-card" data-mark="佩">
+              <div class="character">佩</div>
+              <h3>佩於身，也佩於心</h3>
+              <p>源自佩戴、玉佩與別針，象徵裝飾、連接與表達。</p>
+            </article>
+            <article class="meaning-card" data-mark="格">
+              <div class="character">格</div>
+              <h3>格物致知，自成格局</h3>
+              <p>源自格物致知、方塊與格局，象徵框架與品格。</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="wrap">
+          <div class="section-heading">
+            <h2>品牌標誌</h2>
+            <p>以器物為引，將古意轉化為當代佩飾語彙。</p>
+          </div>
+          <div class="logo-feature">
+            <div class="logo-frame">
+              <img src="logo.png" alt="鄧佩格品牌標誌">
+            </div>
+            <div class="feature-copy">
+              <p class="eyebrow">形與意的相逢</p>
+              <h3>讓古老的掛扣，成為新的連結</h3>
+              <p>結合別針與中國古代掛扣概念，透過灰色別針與多個方格疊加，呈現類似可佩戴頭飾的造型。</p>
+              <span class="red-note">器物有形，心意無界</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="wrap">
+          <div class="section-heading">
+            <h2>一頁人文，一段陪伴</h2>
+            <p>在文字與日常之間，為心留一處安靜的角落。</p>
+          </div>
+          <article class="poster-card">
+            <img src="social_poster.png.jpg" alt="新中式人文治癒風社群宣傳海報">
+            <div class="poster-copy">
+              <h3>新中式人文治癒風</h3>
+              <blockquote>「你能想像一個人，突然被命運重重擊倒，幾乎失去活下去的勇氣嗎？這份從低谷慢慢長出的韌性，或許也能安撫你的迷茫。翻開書本，走進他的生命思考。」</blockquote>
+              <p class="small-note">在低谷裡，也有一束光等候被看見。</p>
+            </div>
+          </article>
+        </div>
+      </section>
+    </section>
+
+    <section class="tab-panel" id="panel-mascot" role="tabpanel" aria-labelledby="tab-mascot">
+      <section class="hero">
+        <div class="wrap hero-content">
+          <p class="eyebrow">角色設計與立體想像</p>
+          <h1>一隻從容的兔子，<br>帶著格物之心出發</h1>
+          <p class="hero-copy">以幾何積木、雲紋衣袍與溫和堅定的神情，描繪佩格的創作者氣質。</p>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="wrap">
+          <div class="section-heading">
+            <h2>不同視角，同一份心意</h2>
+            <p>從平面形象到立體造型，感受角色在不同媒材中的延伸。</p>
+          </div>
+          <div class="mascot-gallery">
+            <figure class="mascot-figure">
+              <div class="mascot-image"><img src="mascot.jpg" alt="萍格／佩格吉祥物平面全身圖"></div>
+              <figcaption>平面全身形象</figcaption>
+            </figure>
+            <figure class="mascot-figure">
+              <div class="mascot-image"><img src="mascot_3d.png" alt="萍格／佩格吉祥物三維全身圖"></div>
+              <figcaption>三維立體造型</figcaption>
+            </figure>
+            <figure class="mascot-figure">
+              <div class="mascot-image"><img src="mascot_logo.jpg" alt="萍格／佩格吉祥物頭像標誌"></div>
+              <figcaption>角色頭像標誌</figcaption>
+            </figure>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="wrap">
+          <div class="section-heading">
+            <h2>角色細節設定</h2>
+            <p>以造型、服飾與神情，讓角色的內在性格自然顯現。</p>
+          </div>
+          <div class="details-grid">
+            <article class="detail-card">
+              <p class="label">角色名稱</p>
+              <h3>萍格／佩格</h3>
+              <p>以親切靈巧的兔子形象，承載品牌的創意與溫度。</p>
+            </article>
+            <article class="detail-card">
+              <p class="label">外型設定</p>
+              <h3>幾何耳朵與新中式衣袍</h3>
+              <p>一隻兔子，頭頂著象徵「格物之姿」的紅藍白幾何方塊積木立體耳朵，身穿帶有雲紋暗繡的新中式深青色立領連衫與朱紅腰帶。</p>
+            </article>
+            <article class="detail-card">
+              <p class="label">性格設定</p>
+              <h3>從容而堅定</h3>
+              <p>雙臂自信交疊、眼神堅定溫和，展現從容不敗、敢於挑戰的青年創作者氣場。</p>
+            </article>
+          </div>
+        </div>
+      </section>
+    </section>
+  </main>
+
+  <footer class="site-footer">鄧佩格個人品牌 · 以佩戴連接創意</footer>
+
+  <script>
+    const tabButtons = document.querySelectorAll(".tab-button");
+    const tabPanels = document.querySelectorAll(".tab-panel");
+
+    function activateTab(button) {
+      const targetId = button.getAttribute("aria-controls");
+
+      tabButtons.forEach((tab) => {
+        const selected = tab === button;
+        tab.setAttribute("aria-selected", String(selected));
+        tab.tabIndex = selected ? 0 : -1;
+      });
+
+      tabPanels.forEach((panel) => {
+        panel.classList.toggle("active", panel.id === targetId);
+        panel.style.display = panel.id === targetId ? "block" : "none";
+      });
+
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    tabButtons.forEach((button, index) => {
+      button.addEventListener("click", () => activateTab(button));
+      button.addEventListener("keydown", (event) => {
+        if (event.key === "ArrowRight" || event.key === "ArrowLeft") {
+          event.preventDefault();
+          const direction = event.key === "ArrowRight" ? 1 : -1;
+          const next = (index + direction + tabButtons.length) % tabButtons.length;
+          tabButtons[next].focus();
+          activateTab(tabButtons[next]);
+        }
+      });
+    });
+
+    tabPanels.forEach((panel, index) => {
+      panel.style.display = index === 0 ? "block" : "none";
+    });
+    tabButtons[0].tabIndex = 0;
+    tabButtons[1].tabIndex = -1;
+  </script>
+</body>
+</html>
